@@ -50,12 +50,12 @@
 
 為了確保系統的一致性，我們假設
 1. 所有的資料都採 JSON 格式（除指定外，你可以自由訂立合適的資料格式）
-用戶傳送的 JSON Payload 格式會固定以此格式
+    * [用戶傳送的 JSON Payload 格式會固定以此格式](https://gist.github.com/chivincent-rosetta/1019e6e05a797c48478175ff7f3b00d5)
 2. 可以由任何程式語言或框架實作，使用的程式語言與框架並不影響評分
 3. 可以搭配任何 Open Source 的解決方案，以下提供一些範例
-允許：MySQL, PostgreSQL, Elasticsearch, MongoDB, Redis, Docker
-不允許：Oracle RDBMS, Microsoft SQL Server
-如果不確定軟體是否能夠使用，歡迎來信詢問
+    * 允許：MySQL, PostgreSQL, Elasticsearch, MongoDB, Redis, Docker
+    * 不允許：Oracle RDBMS, Microsoft SQL Server
+    * 如果不確定軟體是否能夠使用，歡迎來信詢問
 4. 服務需可包裏為 OCI 相容的格式，並提供如何執行的說明，例如：Docker Image 搭配 Docker Compose
 
 #### 參考資料
