@@ -19,7 +19,7 @@ class MerchantService
             'name' => data_get($data, 'name'),
             'phone' => data_get($data, 'phone'),
             'identity' => data_get($data, 'identity'),
-            'location' => data_get($data, 'location', $this->getCoordinates(data_get($data, 'address'))),
+            'location' => data_get($data, 'location') ?: $this->getCoordinates(data_get($data, 'address')),
         ]);
     }
 
