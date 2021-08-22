@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Spatie\Geocoder\Facades\Geocoder;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -122,6 +123,12 @@ class MerchantsTest extends TestCase
             'identity' => 'A123456789',
             'address' => '台北市信義區市府路1號',
         ];
+        Geocoder::shouldReceive('getCoordinatesForAddress')
+            ->with($expected['address'])
+            ->andReturn([
+                'lat' => 25.0381727,
+                'lng' => 121.5643485,
+            ]);
 
         // act
         $actual = $this->postJson(route('merchants.store'), $expected);
