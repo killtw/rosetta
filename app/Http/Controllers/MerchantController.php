@@ -2,84 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMerchantRequest;
+use App\Http\Resources\MerchantResource;
 use App\Models\Merchant;
-use Illuminate\Http\Request;
+use App\Services\MerchantService;
+use Illuminate\Http\JsonResponse;
 
 class MerchantController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * @param \App\Http\Requests\CreateMerchantRequest $request
      *
-     * @param  \App\Models\Merchant  $merchant
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Merchant $merchant)
+    public function store(CreateMerchantRequest $request): JsonResponse
     {
-        //
-    }
+        $merchant = app(MerchantService::class)->create($request->only(['name', 'phone', 'identity', 'location']));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Merchant  $merchant
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Merchant $merchant)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Merchant  $merchant
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Merchant $merchant)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Merchant  $merchant
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Merchant $merchant)
-    {
-        //
+        return (new MerchantResource($merchant))->response();
     }
 }
