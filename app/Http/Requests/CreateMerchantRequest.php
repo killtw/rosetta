@@ -28,7 +28,9 @@ class CreateMerchantRequest extends FormRequest
             'name' => 'required',
             'phone' => 'required',
             'identity' => ['required', new IdentityRule],
-            'location' => 'array',
+            'location' => 'required_without:address|array',
+            'location.lat' => 'numeric',
+            'location.lng' => 'numeric',
             'address' => 'string|required_without:location',
         ];
     }
