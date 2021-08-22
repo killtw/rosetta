@@ -18,7 +18,7 @@ class MerchantController extends Controller
      */
     public function store(CreateMerchantRequest $request): JsonResponse
     {
-        $merchant = app(MerchantService::class)->create($request->only(['name', 'phone', 'identity', 'location']));
+        $merchant = app(MerchantService::class)->create($request->only(['name', 'phone', 'identity', 'location', 'address']));
 
         return (new MerchantResource($merchant))->response();
     }
