@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('merchants/create', [MerchantController::class, 'store']);
+Route::post('merchants', [MerchantController::class, 'store'])->name('merchants.store');
