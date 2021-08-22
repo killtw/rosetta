@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateMerchantRequest;
 use App\Http\Resources\MerchantResource;
-use App\Models\Merchant;
 use App\Services\MerchantService;
 use Illuminate\Http\JsonResponse;
 
