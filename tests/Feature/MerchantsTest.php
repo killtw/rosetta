@@ -91,4 +91,24 @@ class MerchantsTest extends TestCase
                 'identity' => 'identity 不是合法的身分證字號',
             ]);
     }
+
+    /** @test */
+    public function address_and_location_could_not_be_empty_at_same_time()
+    {
+        // arrange
+        $expected = [
+            'name' => $this->faker->name,
+            'phone' => $this->faker->phoneNumber,
+            'identity' => 'A123456789',
+        ];
+
+        // act
+        $actual = $this->postJson(route('merchants.store'), $expected);
+
+        // assert
+        $actual->assertJsonValidationErrors([
+            'location' => 'The location field is required when address is not present.',
+            'address' => 'The address field is required when location is not present.',
+        ]);
+    }
 }
