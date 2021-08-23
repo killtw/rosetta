@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Geocoder\Facades\Geocoder;
+use Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ class MerchantsTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /** @test */
-    public function it_should_create_and_return_a_merchant_model_with_http_200()
+    public function it_should_create_and_return_a_merchant()
     {
         // arrange
         $expected = [
@@ -34,8 +35,12 @@ class MerchantsTest extends TestCase
             ->assertCreated()
             ->assertJson([
                 'message' => 'success',
-                'data' => $expected,
+                'data' => [
+                    'name' => $expected['name'],
+                    'location' => $expected['location'],
+                ],
             ]);
+        $this->assertTrue(Str::length($actual->json('data.id')) === 15);
     }
 
     /** @test */

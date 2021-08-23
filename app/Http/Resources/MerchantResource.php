@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Str;
 
 class MerchantResource extends JsonResource
 {
@@ -16,7 +17,11 @@ class MerchantResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'data' => parent::toArray($request),
+            'data' => [
+                'id' => Str::padLeft($this->id, 15, 0),
+                'name' => $this->name,
+                'location' => $this->location,
+            ],
         ];
     }
 
