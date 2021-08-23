@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Merchant;
 
 use App\Services\MerchantService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
