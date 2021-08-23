@@ -14,7 +14,7 @@ class Merchant extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'phone', 'identity', 'location'];
+    protected $fillable = ['uuid', 'name', 'phone', 'identity', 'location'];
 
     /**
      * The attributes that should be cast.
