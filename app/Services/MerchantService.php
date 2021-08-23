@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Merchant;
-use Geocoder;
-use Spatie\Geocoder\Exceptions\CouldNotGeocode;
+use Domain\Merchant\MerchantAggregate;
+use Str;
 
 class MerchantService
 {
@@ -15,26 +15,9 @@ class MerchantService
      */
     public function create(array $data): Merchant
     {
-        return Merchant::create([
-            'name' => data_get($data, 'name'),
-            'phone' => data_get($data, 'phone'),
-            'identity' => data_get($data, 'identity'),
-            'location' => data_get($data, 'location') ?: $this->getCoordinates(data_get($data, 'address')),
-        ]);
-    }
+        $uuid = Str::uuid();
+        MerchantAggregate::retrieve($uuid)->create($data)->persist();
 
-    /**
-     * @param string $address
-     *
-     * @return array
-     */
-    protected function getCoordinates(string $address): array
-    {
-        $response = Geocoder::getCoordinatesForAddress($address);
-
-        return [
-            'lat' => data_get($response, 'lat'),
-            'lng' => data_get($response, 'lng'),
-        ];
+        return Merchant::where('uuid', $uuid)->firstOrFail();
     }
 }
