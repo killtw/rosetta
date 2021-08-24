@@ -14,7 +14,7 @@ class AddUuidColumnToMerchantsTable extends Migration
     public function up()
     {
         Schema::table('merchants', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id');
+            $table->uuid('uuid')->nullable()->after('id');
         });
     }
 
