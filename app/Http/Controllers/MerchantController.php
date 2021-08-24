@@ -6,6 +6,7 @@ use App\Http\Requests\CreateMerchantRequest;
 use App\Http\Resources\MerchantResource;
 use App\Services\MerchantService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class MerchantController extends Controller
 {
@@ -20,6 +21,6 @@ class MerchantController extends Controller
     {
         $merchant = app(MerchantService::class)->create($request->only(['name', 'phone', 'identity', 'location', 'address']));
 
-        return (new MerchantResource($merchant))->response();
+        return (new MerchantResource($merchant))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 }

@@ -1,19 +1,20 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Merchant;
 
-use App\Services\MerchantService;
+use Domain\Merchant\Events\MerchantCreated;
+use Domain\Merchant\MerchantAggregate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Geocoder\Facades\Geocoder;
 use Tests\TestCase;
 
-class MerchantServiceTest extends TestCase
+class MerchantAggregateTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
     /** @test */
-    public function it_should_create_and_return_a_merchant_model()
+    public function it_could_create_merchant()
     {
         // arrange
         $expected = [
@@ -27,36 +28,39 @@ class MerchantServiceTest extends TestCase
         ];
 
         // act
-        $actual = app(MerchantService::class)->create($expected);
+        $actual = MerchantAggregate::fake()
+            ->when(fn (MerchantAggregate $aggregate) => $aggregate->create($expected));
 
         // assert
-        $this->assertSame($expected['name'], $actual->name);
-        $this->assertDatabaseHas('merchants', ['name' => $expected['name']]);
+        $actual->assertRecorded([new MerchantCreated($expected['name'], $expected['phone'], $expected['identity'], $expected['location'])]);
     }
 
     /** @test */
-    public function it_should_create_a_merchant_by_address()
+    public function it_could_create_merchant_with_address()
     {
         // arrange
-        $expected = [
+        $data = [
             'name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'identity' => 'A123456789',
             'address' => '台北市信義區市府路1號',
         ];
+        $expected = [
+            'lat' => 25.0381727,
+            'lng' => 121.5643485,
+        ];
         Geocoder::shouldReceive('getCoordinatesForAddress')
-            ->with($expected['address'])
+            ->with($data['address'])
             ->andReturn([
                 'lat' => 25.0381727,
                 'lng' => 121.5643485,
             ]);
 
         // act
-        $actual = app(MerchantService::class)->create($expected);
+        $actual = MerchantAggregate::fake()
+            ->when(fn (MerchantAggregate $aggregate) => $aggregate->create($data));
 
         // assert
-        $this->assertSame(25.0381727, $actual->location['lat']);
-        $this->assertSame(121.5643485, $actual->location['lng']);
-        $this->assertDatabaseHas('merchants', ['name' => $expected['name']]);
+        $actual->assertRecorded([new MerchantCreated($data['name'], $data['phone'], $data['identity'], $expected)]);
     }
 }
