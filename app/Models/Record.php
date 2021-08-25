@@ -29,7 +29,7 @@ class Record extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['uuid', 'merchant_id', 'from', 'time', 'geohash'];
+    protected $fillable = ['uuid', 'merchant_id', 'from', 'time'];
 
     /**
      * The attributes that should be cast.
