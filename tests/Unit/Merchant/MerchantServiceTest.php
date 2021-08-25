@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Merchant;
 
-use App\Services\MerchantService;
+use Domain\Merchant\MerchantService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Geocoder\Facades\Geocoder;

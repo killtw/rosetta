@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateMerchantRequest;
 use App\Http\Resources\MerchantResource;
-use App\Services\MerchantService;
+use Domain\Merchant\MerchantService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
