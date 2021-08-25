@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace Domain\Merchant;
 
 use App\Models\Merchant;
-use Domain\Merchant\MerchantAggregate;
 use Str;
 
 class MerchantService

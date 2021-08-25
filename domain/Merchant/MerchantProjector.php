@@ -13,12 +13,14 @@ class MerchantProjector extends Projector
      */
     public function onMerchantCreated(MerchantCreated $event): void
     {
-        Merchant::create([
+        $merchant = Merchant::create([
             'uuid' => $event->aggregateRootUuid(),
             'name' => $event->name,
             'phone' => $event->phone,
             'identity' => $event->identity,
             'location' => $event->location,
         ]);
+
+        app(RedisService::class)->geoAdd($merchant->id, data_get($event->location, 'lat'), data_get($event->location, 'lng'));
     }
 }
