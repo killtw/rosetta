@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Merchant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -16,7 +17,7 @@ class RecordsTest extends TestCase
     public function it_should_create_and_return_a_record()
     {
         // arrange
-        Merchant::factory()->create();
+        $merchant = Merchant::factory()->create();
         $expected = [
             'time' => '2021-01-01T00:00:00',
             'from' => '0912345678',
@@ -32,13 +33,18 @@ class RecordsTest extends TestCase
             ->assertJson([
                 'message' => 'success',
             ]);
+        $this->assertDatabaseHas('records', [
+            'merchant_id' => $merchant->id,
+            'from' => $expected['from'],
+            'time' => Carbon::parse($expected['time'])->utc(),
+        ]);
     }
 
     /** @test */
     public function it_should_accept_different_format_of_phone_number()
     {
         // arrange
-        Merchant::factory()->create();
+        $merchant = Merchant::factory()->create();
         $expected = [
             'time' => '2021-01-01T00:00:00',
             'from' => '0912-345-678',
@@ -54,13 +60,18 @@ class RecordsTest extends TestCase
             ->assertJson([
                 'message' => 'success',
             ]);
+        $this->assertDatabaseHas('records', [
+            'merchant_id' => $merchant->id,
+            'from' => '0912345678',
+            'time' => Carbon::parse($expected['time'])->utc(),
+        ]);
     }
 
     /** @test */
     public function it_should_accept_another_format_of_phone_number()
     {
         // arrange
-        Merchant::factory()->create();
+        $merchant = Merchant::factory()->create();
         $expected = [
             'time' => '2021-01-01T00:00:00',
             'from' => '(+886)912345678',
@@ -76,6 +87,11 @@ class RecordsTest extends TestCase
             ->assertJson([
                 'message' => 'success',
             ]);
+        $this->assertDatabaseHas('records', [
+            'merchant_id' => $merchant->id,
+            'from' => '0912345678',
+            'time' => Carbon::parse($expected['time'])->utc(),
+        ]);
     }
 
     /** @test */
