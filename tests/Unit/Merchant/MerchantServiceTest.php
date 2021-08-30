@@ -3,7 +3,7 @@
 namespace Tests\Unit\Merchant;
 
 use Domain\Merchant\MerchantService;
-use Domain\Merchant\RedisService;
+use App\Services\RedisService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Geocoder\Facades\Geocoder;
@@ -77,7 +77,7 @@ class MerchantServiceTest extends TestCase
 
         // act
         $merchant = app(MerchantService::class)->create($expected);
-        $actual = app(RedisService::class)->geoPos($merchant->id);
+        $actual = app(RedisService::class)->getMerchantPos($merchant->id);
 
         // assert
         $this->assertEquals($expected['location']['lat'], $actual['lat']);

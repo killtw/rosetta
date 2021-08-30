@@ -3,6 +3,7 @@
 namespace Domain\Merchant;
 
 use App\Models\Merchant;
+use App\Services\RedisService;
 use Domain\Merchant\Events\MerchantCreated;
 use Spatie\EventSourcing\EventHandlers\Projectors\Projector;
 
@@ -21,6 +22,6 @@ class MerchantProjector extends Projector
             'location' => $event->location,
         ]);
 
-        app(RedisService::class)->geoAdd($merchant->id, data_get($event->location, 'lat'), data_get($event->location, 'lng'));
+        app(RedisService::class)->addMerchant($merchant->id, data_get($event->location, 'lat'), data_get($event->location, 'lng'));
     }
 }
