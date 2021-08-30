@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Domain\Records;
+namespace Domain\Record;
 
 use App\Models\Record;
 use Str;

@@ -3,7 +3,7 @@
 namespace Tests\Unit\Record;
 
 use App\Models\Merchant;
-use Domain\Records\RecordService;
+use Domain\Record\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;

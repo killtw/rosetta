@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRecordRequest;
 use App\Models\Record;
-use Domain\Records\RecordService;
+use Domain\Record\RecordService;
 use Illuminate\Http\JsonResponse;
 use Str;
 use Symfony\Component\HttpFoundation\Response;
