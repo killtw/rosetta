@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Merchant;
 
-use Domain\Merchant\RedisService;
+use App\Services\RedisService;
 use Illuminate\Support\Facades\Redis;
 use Tests\TestCase;
 
@@ -19,8 +19,8 @@ class RedisServiceTest extends TestCase
         ];
 
         // act
-        $actual = app(RedisService::class)->geoAdd($expected['id'], $expected['lat'], $expected['lng']);
-        $result = Redis::command('geopos', [RedisService::KEY, $expected['id']]);
+        $actual = app(RedisService::class)->addMerchant($expected['id'], $expected['lat'], $expected['lng']);
+        $result = Redis::command('geopos', [RedisService::MERCHANTS_KEY, $expected['id']]);
 
         // assert
         $this->assertTrue($actual);
@@ -37,11 +37,11 @@ class RedisServiceTest extends TestCase
             'lat' => 5.16119795728538833,
             'lng' => 147.11970895528793335,
         ];
-        Redis::command('geoadd', [RedisService::KEY, $data['lng'], $data['lat'], $data['id']]);
-        $expected = Redis::command('geopos', [RedisService::KEY, $data['id']]);
+        Redis::command('geoadd', [RedisService::MERCHANTS_KEY, $data['lng'], $data['lat'], $data['id']]);
+        $expected = Redis::command('geopos', [RedisService::MERCHANTS_KEY, $data['id']]);
 
         // act
-        $actual = app(RedisService::class)->geoPos($data['id']);
+        $actual = app(RedisService::class)->getMerchantPos($data['id']);
 
         // assert
         $this->assertEquals($expected[0][0], $actual['lng']);
