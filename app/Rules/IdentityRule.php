@@ -3,7 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Str;
+use Illuminate\Support\Str;
 
 class IdentityRule implements Rule
 {
