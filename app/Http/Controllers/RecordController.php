@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRecordRequest;
 use App\Models\Record;
+use Domain\Records\RecordService;
 use Illuminate\Http\JsonResponse;
 use Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +20,7 @@ class RecordController extends Controller
      */
     public function store(CreateRecordRequest $request): JsonResponse
     {
-        Record::create([
-            'uuid' => Str::uuid(),
-            'merchant_id' => data_get($request->all(), 'merchant_id'),
-            'from' => data_get($request->all(), 'from'),
-            'time' => $request->get('time'),
-        ]);
+        app(RecordService::class)->create($request->only(['merchant_id', 'from', 'time']));
 
         return response()->json(['message' => 'success'])->setStatusCode(Response::HTTP_CREATED);
     }

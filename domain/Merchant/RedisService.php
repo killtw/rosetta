@@ -2,7 +2,6 @@
 
 namespace Domain\Merchant;
 
-use App\Models\Merchant;
 use Illuminate\Support\Facades\Redis;
 
 class RedisService
