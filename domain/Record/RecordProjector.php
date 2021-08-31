@@ -3,9 +3,7 @@
 namespace Domain\Record;
 
 use App\Models\Record;
-use App\Services\RedisService;
 use Domain\Record\Events\RecordCreated;
-use Illuminate\Support\Carbon;
 use Spatie\EventSourcing\EventHandlers\Projectors\Projector;
 
 class RecordProjector extends Projector

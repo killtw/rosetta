@@ -16,6 +16,8 @@ class RecordObserver
      */
     public function created(Record $record): void
     {
-        app(RedisService::class)->addRecordToMerchant($record->merchant_id, $record->from, $record->time->timestamp);
+        $member = "$record->from:$record->uuid";
+
+        app(RedisService::class)->addRecordToMerchant($record->merchant_id, $member, $record->time->timestamp);
     }
 }
