@@ -27,8 +27,8 @@ class MerchantFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'identity' => 'A123456789',
             'location' => [
-                'lat' => $this->faker->latitude,
-                'lng' => $this->faker->longitude,
+                'lat' => 25.0375459767136519,
+                'lng' => 121.56224280595779419,
             ],
         ];
     }
