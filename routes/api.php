@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('merchants', [MerchantController::class, 'store'])->name('merchants.store');
 Route::post('records', [RecordController::class, 'store'])->name('records.store');
+Route::post('records/search', [RecordController::class, 'search'])->name('records.search');
