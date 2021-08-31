@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Merchant;
+use App\Models\Record;
+use App\Observers\MerchantObserver;
+use App\Observers\RecordObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Merchant::observe(MerchantObserver::class);
+        Record::observe(RecordObserver::class);
     }
 }

@@ -30,10 +30,10 @@ class RedisService
         ] : null;
     }
 
-    public function addRecordToMerchant(int $merchant_id, string $uuid, int $timestamp): bool
+    public function addRecordToMerchant(int $merchant_id, string $member, int $timestamp): bool
     {
         $key = sprintf(self::MERCHANTS_KEY . ':%s', $merchant_id);
 
-        return ! ! Redis::command('zadd', [$key, $timestamp, $uuid]);
+        return ! ! Redis::command('zadd', [$key, $timestamp, $member]);
     }
 }
