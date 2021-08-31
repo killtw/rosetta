@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Merchant;
+use App\Services\RedisService;
 
 class MerchantObserver
 {
@@ -15,6 +16,6 @@ class MerchantObserver
      */
     public function created(Merchant $merchant): void
     {
-
+        app(RedisService::class)->addMerchant($merchant->id, data_get($merchant->location, 'lat'), data_get($merchant->location, 'lng'));
     }
 }
