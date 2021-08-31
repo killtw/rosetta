@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Record;
+use App\Services\RedisService;
 
 class RecordObserver
 {
@@ -15,6 +16,6 @@ class RecordObserver
      */
     public function created(Record $record): void
     {
-        //
+        app(RedisService::class)->addRecordToMerchant($record->merchant_id, $record->from, $record->time->timestamp);
     }
 }

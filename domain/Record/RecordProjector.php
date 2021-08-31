@@ -18,7 +18,5 @@ class RecordProjector extends Projector
             'from' => $event->from,
             'time' => $event->time,
         ]);
-
-        app(RedisService::class)->addRecordToMerchant($event->merchant_id, $event->from, Carbon::parse($event->time)->timestamp);
     }
 }
