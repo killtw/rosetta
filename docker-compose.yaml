@@ -1,0 +1,46 @@
+version: '3.7'
+
+volumes:
+  data:
+
+x-rosetta: &rosetta
+  build: .
+  restart: always
+  volumes:
+    - ${PWD}/env:/app/.env
+    - ${PWD}/storage/logs:/app/storage/logs
+    - ${PWD}/storage/framework/cache:/app/storage/framework/cache
+    - ${PWD}/storage/framework/views:/app/storage/framework/views
+  links:
+    - mysql
+    - redis
+  depends_on:
+    - mysql
+    - redis
+
+services:
+  rosetta:
+    <<: *rosetta
+    ports:
+      - "2015:2015"
+
+  horizon:
+    <<: *rosetta
+    command: ["php", "artisan", "horizon"]
+
+  mysql:
+    image: mysql
+    volumes:
+      - data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - data:/var/lib/redis
+    restart: always
