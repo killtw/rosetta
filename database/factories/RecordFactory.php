@@ -25,7 +25,7 @@ class RecordFactory extends Factory
         return [
             'uuid' => $this->faker->uuid,
             'merchant_id' => Merchant::factory(),
-            'from' => '0987654321',
+            'from' => '09' . $this->faker->numerify('########'),
             'time' => now(),
         ];
     }

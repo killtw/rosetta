@@ -32,4 +32,24 @@ class MerchantFactory extends Factory
             ],
         ];
     }
+
+    public function taipei_station()
+    {
+        return $this->state(fn (array $attributes) => [
+            'location' => [
+                'lat' => 25.047799,
+                'lng' => 121.514765,
+            ],
+        ]);
+    }
+
+    public function ticc()
+    {
+        return $this->state(fn (array $attributes) => [
+            'location' => [
+                'lat' => 25.0385197,
+                'lng' => 121.5605449,
+            ],
+        ]);
+    }
 }
