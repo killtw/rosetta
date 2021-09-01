@@ -1,4 +1,3 @@
----
 # Rosetta
 
 ## Endpoints
@@ -35,7 +34,7 @@
 ```
 * Example
 
-`POST /merchants` 
+`POST /merchants`
 ```json
 {
     "name": "test merchant",
@@ -87,6 +86,7 @@
     }
 }
 ```
+
 ---
 
 ### Create new record
@@ -136,12 +136,12 @@
 `Response`
 ```json
 {
-  "message": "The given data was invalid.",
-  "errors": {
-    "from": [
-      "text 沒有包含場所代碼"
-    ]
-  }
+    "message": "The given data was invalid.",
+    "errors": {
+        "from": [
+            "text 沒有包含場所代碼"
+        ]
+    }
 }
 ```
 
