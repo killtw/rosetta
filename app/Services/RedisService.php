@@ -63,4 +63,14 @@ class RedisService
 
         return Redis::command('zrangebyscore', [$key, $time->subDays(8)->timestamp, $time->timestamp, ['WITHSCORES' => true]]);
     }
+
+    /**
+     * @param int $merchant_id
+     *
+     * @return array
+     */
+    public function getNearMerchants(int $merchant_id): array
+    {
+        return Redis::command('georadiusbymember', [self::MERCHANTS_KEY, $merchant_id, 50, 'm']);
+    }
 }

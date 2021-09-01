@@ -19,8 +19,11 @@ class RecordService
 
     public function search(int $merchant_id, string $time): Collection
     {
-        $result = app(RedisService::class)->getRecordFromMerchantIn7Days($merchant_id, Carbon::parse($time)->toImmutable());
+        $merchants = app(RedisService::class)->getNearMerchants($merchant_id);
+        $immutable_time = Carbon::parse($time)->toImmutable();
 
-        return collect($result)->transform(fn ($record, $key) => ['from' => explode(':', $key)[0], 'time' => $record])->values();
+        return collect($merchants)->map(fn ($merchant_id) => app(RedisService::class)->getRecordFromMerchantIn7Days($merchant_id, $immutable_time))
+            ->collapse()
+            ->transform(fn ($record, $key) => ['from' => explode(':', $key)[0], 'time' => $record])->values();
     }
 }
