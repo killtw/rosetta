@@ -22,9 +22,9 @@ class MerchantFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => $this->faker->uuid,
-            'name' => $this->faker->name,
-            'phone' => $this->faker->phoneNumber,
+            'uuid' => $this->faker->uuid(),
+            'name' => $this->faker->name(),
+            'phone' => $this->faker->phoneNumber(),
             'identity' => 'A123456789',
             'location' => [
                 'lat' => 25.0375459767136519,
@@ -37,18 +37,18 @@ class MerchantFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'location' => [
-                'lat' => 25.047799,
-                'lng' => 121.514765,
+                'lat' => 25.04779892380317818,
+                'lng' => 121.51476234197616577,
             ],
         ]);
     }
 
-    public function ticc()
+    public function tcooc()
     {
         return $this->state(fn (array $attributes) => [
             'location' => [
-                'lat' => 25.0385197,
-                'lng' => 121.5605449,
+                'lat' => 25.0375465,
+                'lng' => 121.562244,
             ],
         ]);
     }

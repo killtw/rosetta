@@ -218,4 +218,30 @@ class RecordsTest extends TestCase
         // assert
         $this->assertEquals($expected, $actual->json('data.*.from'));
     }
+
+    /** @test */
+    public function it_should_return_records_nearby_before_time_from_merchant()
+    {
+        // arrange
+        Redis::command('flushall');
+        $merchant = Merchant::factory()->tcooc()->create();
+        $time = now();
+        $expected = [];
+        for ($i = 0; $i < 10; $i++) {
+            $expected[] = Record::factory()->create(['merchant_id' => $merchant->id, 'time' => $time])->from;
+            $time->addHour();
+        }
+        $record = Record::factory()->create(['time' => $time]);
+        $expected[] = $record->from;
+        $data = [
+            'merchant' => str_pad($record->merchant_id, 15, 0, STR_PAD_LEFT),
+            'time' => $record->time->format('Y-m-d H:i:s'),
+        ];
+
+        // act
+        $actual = $this->postJson(route('records.search'), $data);
+
+        // assert
+        $this->assertEquals($expected, $actual->json('data.*.from'));
+    }
 }

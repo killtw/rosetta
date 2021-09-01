@@ -23,7 +23,7 @@ class RecordFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => $this->faker->uuid,
+            'uuid' => $this->faker->uuid(),
             'merchant_id' => Merchant::factory(),
             'from' => '09' . $this->faker->numerify('########'),
             'time' => now(),
