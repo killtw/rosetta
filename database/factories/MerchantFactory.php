@@ -22,14 +22,34 @@ class MerchantFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => $this->faker->uuid,
-            'name' => $this->faker->name,
-            'phone' => $this->faker->phoneNumber,
+            'uuid' => $this->faker->uuid(),
+            'name' => $this->faker->name(),
+            'phone' => $this->faker->phoneNumber(),
             'identity' => 'A123456789',
             'location' => [
                 'lat' => 25.0375459767136519,
                 'lng' => 121.56224280595779419,
             ],
         ];
+    }
+
+    public function taipei_station()
+    {
+        return $this->state(fn (array $attributes) => [
+            'location' => [
+                'lat' => 25.04779892380317818,
+                'lng' => 121.51476234197616577,
+            ],
+        ]);
+    }
+
+    public function tcooc()
+    {
+        return $this->state(fn (array $attributes) => [
+            'location' => [
+                'lat' => 25.0375465,
+                'lng' => 121.562244,
+            ],
+        ]);
     }
 }

@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Merchant;
+use App\Models\Record;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -189,5 +191,88 @@ class RecordsTest extends TestCase
             ->assertJsonValidationErrors([
                 'text' => 'text 包含的場所代碼不存在',
             ]);
+    }
+
+    /** @test */
+    public function it_should_return_records_before_time_from_merchant()
+    {
+        // arrange
+        Redis::command('flushall');
+        $merchant = Merchant::factory()->create();
+        $time = now();
+        $expected = [];
+        for ($i = 0; $i < 10; $i++) {
+            $expected[] = Record::factory()->create(['merchant_id' => $merchant->id, 'time' => $time])->from;
+            $time->addHour();
+        }
+        $record = Record::factory()->create(['merchant_id' => $merchant->id, 'time' => $time]);
+        $expected[] = $record->from;
+        $data = [
+            'merchant' => str_pad($record->merchant_id, 15, 0, STR_PAD_LEFT),
+            'time' => $record->time->format('Y-m-d H:i:s'),
+        ];
+
+        // act
+        $actual = $this->postJson(route('records.search'), $data);
+
+        // assert
+        $this->assertEquals($expected, $actual->json('data.*.from'));
+    }
+
+    /** @test */
+    public function it_should_return_records_nearby_before_time_from_merchant()
+    {
+        // arrange
+        Redis::command('flushall');
+        $merchant = Merchant::factory()->tcooc()->create();
+        $time = now();
+        $expected = [];
+        for ($i = 0; $i < 10; $i++) {
+            $expected[] = Record::factory()->create(['merchant_id' => $merchant->id, 'time' => $time])->from;
+            $time->addHour();
+        }
+        $record = Record::factory()->create(['time' => $time]);
+        $expected[] = $record->from;
+        $data = [
+            'merchant' => str_pad($record->merchant_id, 15, 0, STR_PAD_LEFT),
+            'time' => $record->time->format('Y-m-d H:i:s'),
+        ];
+
+        // act
+        $actual = $this->postJson(route('records.search'), $data);
+
+        // assert
+        $this->assertEquals($expected, $actual->json('data.*.from'));
+    }
+
+    /** @test */
+    public function it_should_return_records_nearby_and_exclude_too_far_before_time_from_merchant()
+    {
+        // arrange
+        Redis::command('flushall');
+        $tcooc = Merchant::factory()->tcooc()->create();
+        $time = now();
+        $expected = [];
+        for ($i = 0; $i < 10; $i++) {
+            $expected[] = Record::factory()->create(['merchant_id' => $tcooc->id, 'time' => $time])->from;
+            $time->addHour();
+        }
+        $station = Merchant::factory()->taipei_station()->create();
+        for ($i = 0; $i < 10; $i++) {
+            Record::factory()->create(['merchant_id' => $station->id, 'time' => $time])->from;
+            $time->addHour();
+        }
+        $record = Record::factory()->create(['time' => $time]);
+        $expected[] = $record->from;
+        $data = [
+            'merchant' => str_pad($record->merchant_id, 15, 0, STR_PAD_LEFT),
+            'time' => $record->time->format('Y-m-d H:i:s'),
+        ];
+
+        // act
+        $actual = $this->postJson(route('records.search'), $data);
+
+        // assert
+        $this->assertEquals($expected, $actual->json('data.*.from'));
     }
 }
